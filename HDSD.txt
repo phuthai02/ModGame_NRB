@@ -1,0 +1,17 @@
+* Phím tắt:
+	-- A: bật/tắt ak
+	-- B: dùng bông tai
+	-- C: dùng capsule
+	-- D: bật/tắt chat thế giới zzzzzzzzzz
+	-- E: bật tắt auto hồi sinh (mặc định bật)
+	-- F: đổi khu
+	-- G: giao dịch
+	-- H: ẩn/hiện thông báo boss, tiêu diệt boss (mặc định bật)
+	-- I: auto item zzzzzzzzzzzzzzzz
+	-- J: qua map trái	
+	-- K: qua map giữa (ví dụ rừng karin, rừng bambo,...)
+	-- L: qua map phải
+	-- M: menu mod zzzzzzzzzzzz
+	-- N: bật/tắt nhặt all (mặc định bật) zzzzzzzzzzzzz
+	-- S: bật/tắt săn boss
+
