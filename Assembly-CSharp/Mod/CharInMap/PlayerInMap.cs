@@ -7,16 +7,14 @@ using System.Text;
 using UnityEngine;
 
 
-public class Player
+public class PlayerInMap
 
 {
-
-    public static List<Player> players = new List<Player>();
     public static bool isEnabled = true;
     static int maxLength = 0;
     static int distanceBetweenLines = 8;
     static int x = 0;
-    static int y = 80;
+    static int y = 83;
 
     public static void Paint(mGraphics g)
     {
@@ -45,7 +43,7 @@ public class Player
             {
                 styles[i].normal.textColor = Color.red;
             }
-            int length = getWidth(styles[i], $"{count}. {@char.cName} - {NinjaUtil.getMoneys(@char.cHP)} [{@char.cHP * 100 / @char.cHPFull}%]  [{(@char.cgender == 0 ? "TD" : (@char.cgender == 1 ? "NM" : "XD"))}]");
+            int length = getWidth(styles[i], $"{count}. {@char.cName} - {NinjaUtil.getMoneys(@char.cHP)} [{Convert.ToInt64(@char.cHP) * 100 / Convert.ToInt64(@char.cHPFull)}%]  [{(@char.cgender == 0 ? "TD" : (@char.cgender == 1 ? "NM" : "XD"))}]");
             maxLength = Math.max(length, maxLength);
             count++;
         }
@@ -63,7 +61,7 @@ public class Player
             g.setColor(new Color(0.2f, 0.2f, 0.2f, 0.1f));
             if (GameCanvas.isMouseFocus(0, yDraw, maxLength, 7)) g.setColor(new Color(0.2f, 0.2f, 0.2f, 0.1f));
             g.fillRect(xDraw, yDraw + 1, maxLength, 7);
-            g.drawString($" {count2}. {@char.cName} - {NinjaUtil.getMoneys(@char.cHP)} [{@char.cHP * 100 / @char.cHPFull}%]  [{(@char.cgender == 0 ? "TD" : (@char.cgender == 1 ? "NM" : "XD"))}]", xDraw, mGraphics.zoomLevel - 3 + yDraw, styles[i]);
+            g.drawString($" {count2}. {@char.cName} - {NinjaUtil.getMoneys(@char.cHP)} [{Convert.ToInt64(@char.cHP) * 100 / Convert.ToInt64(@char.cHPFull)}%]  [{(@char.cgender == 0 ? "TD" : (@char.cgender == 1 ? "NM" : "XD"))}]", xDraw, mGraphics.zoomLevel - 3 + yDraw, styles[i]);
             count2++;
         }
     }

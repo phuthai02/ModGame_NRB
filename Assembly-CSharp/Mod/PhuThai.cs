@@ -59,6 +59,7 @@ public class PhuThai
         {
             Boss.isEnabled = !Boss.isEnabled;
             BossDead.isEnabled = !BossDead.isEnabled;
+            BossInMap.isEnabled = !BossInMap.isEnabled;
             GameScr.info1.addInfo("Thông báo BOSS: " + (BossDead.isEnabled ? "Bật" : "Tắt"), 0);
         }
 

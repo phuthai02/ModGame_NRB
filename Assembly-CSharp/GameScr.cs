@@ -4113,9 +4113,7 @@ public class GameScr : mScreen, IChatable
         {
             return;
         }
-        Boss.UpdateTouch();
-        BossDead.UpdateTouch();
-        Player.UpdateTouch();
+        GameEvents.onUpdateTouchGameScr();
 
         mScreen.keyTouch = -1;
         if (GameCanvas.isTouchControl)
@@ -4366,8 +4364,7 @@ public class GameScr : mScreen, IChatable
     public static bool loadSkill = true;
     public override void update()
     {
-        Boss.Update();
-        BossDead.Update();
+        GameEvents.onUpdateGameScr();
         if (GameCanvas.gameTick % 20 == 0)
         {
             Time.timeScale = int.Parse(File.ReadAllText("Mod/Data/speedGame.txt"));
@@ -5121,8 +5118,8 @@ public class GameScr : mScreen, IChatable
         //mFont.tahoma_7b_red.drawString(g, "Trói: " + Char.myCharz().isFreez, GameCanvas.w / 2, 100, 2); 
     
         //Info left
-        mFont.tahoma_7b_red.drawString(g, "HP: " + NinjaUtil.getMoneys(Char.myCharz().cHP) + "/" + NinjaUtil.getMoneys(Char.myCharz().cHPFull) + " - " + Char.myCharz().cHP * 100 / Char.myCharz().cHPFull + "%", 10, 7, 0);
-        mFont.tahoma_7b_blue.drawString(g, "MP: " + NinjaUtil.getMoneys(Char.myCharz().cMP) + "/" + NinjaUtil.getMoneys(Char.myCharz().cMPFull) + " - " + Char.myCharz().cMP * 100 / Char.myCharz().cMPFull + "%", 10, 19, 0);
+        mFont.tahoma_7b_red.drawString(g, "HP: " + NinjaUtil.getMoneys(Char.myCharz().cHP) + "/" + NinjaUtil.getMoneys(Char.myCharz().cHPFull) + " - " + Convert.ToInt64(Char.myCharz().cHP) * 100 / Convert.ToInt64(Char.myCharz().cHPFull) + "%", 10, 7, 0);
+        mFont.tahoma_7b_blue.drawString(g, "MP: " + NinjaUtil.getMoneys(Char.myCharz().cMP) + "/" + NinjaUtil.getMoneys(Char.myCharz().cMPFull) + " - " + Convert.ToInt64(Char.myCharz().cMP) * 100 / Convert.ToInt64(Char.myCharz().cMPFull) + "%", 10, 19, 0);
         mFont.tahoma_7b_green.drawString(g, "SD: " + NinjaUtil.getMoneys(Char.myCharz().cDamFull) + "  -  CM: " + NinjaUtil.getMoneys(Char.myCharz().cCriticalFull) + "%", 10, 31, 0);
 
         GameCanvas.debug("PA21", 1);
@@ -5295,9 +5292,7 @@ public class GameScr : mScreen, IChatable
                 mFont.tahoma_7b_white.drawString(g, strPaint[num27], 5, 85 + num27 * 18, 0, mFont.tahoma_7b_dark);
             }
         }
-        Boss.Paint(g);
-        BossDead.Paint(g);
-        Player.Paint(g);
+        GameEvents.onPaintGameScr(g);
     }
 
     private void paintXoSo(mGraphics g)
@@ -6911,8 +6906,7 @@ public class GameScr : mScreen, IChatable
 
     public void chatVip(string chatVip)
     {
-        Boss.AddBoss(chatVip);
-        BossDead.AddBossDead(chatVip);
+        GameEvents.onChatVip(chatVip);
         //if (!startChat)
         //{
         //    currChatWidth = mFont.tahoma_7b_yellowSmall.getWidth(chatVip);
