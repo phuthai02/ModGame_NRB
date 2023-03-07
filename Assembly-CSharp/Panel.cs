@@ -349,6 +349,8 @@ public class Panel : IActionListener, IChatable
 
     public static int itemBuys = -1;
 
+    public static ItemObject itemSales;
+
     private int position;
 
     public Char charMenu;
@@ -6663,6 +6665,10 @@ public class Panel : IActionListener, IChatable
             if (currItem != null)
             {
                 myVector.addElement(new Command(mResources.SALE, this, 3002, currItem));
+                if (currItem.template.id == 457)
+                {
+                    myVector.addElement(new Command(mResources.SALES, this, 20022, currItem));
+                }
             }
         }
         else
@@ -6789,6 +6795,10 @@ public class Panel : IActionListener, IChatable
                     if (position == 1)
                     {
                         myVector.addElement(new Command(mResources.SALE, this, 3002, currItem));
+                        if (currItem.template.id == 457)
+                        {
+                            myVector.addElement(new Command(mResources.SALES, this, 20022, currItem));
+                        }
                     }
                 }
                 GameCanvas.menu.startAt(myVector, X, (selected + 1) * ITEM_HEIGHT - cmy + yScroll);
@@ -7242,6 +7252,7 @@ public class Panel : IActionListener, IChatable
             currInfoItem = selected - 1;
             myVector.addElement(new Command(mResources.CHAT, this, 8001, (InfoItem)logChat.elementAt(currInfoItem)));
             myVector.addElement(new Command(mResources.make_friend, this, 8003, (InfoItem)logChat.elementAt(currInfoItem)));
+            myVector.addElement(new Command("Teleport", this, 20023, (InfoItem)logChat.elementAt(currInfoItem)));
             GameCanvas.menu.startAt(myVector, X, (selected + 1) * ITEM_HEIGHT - cmy + yScroll);
             addLogMessage((InfoItem)logChat.elementAt(selected - 1));
         }
@@ -7985,6 +7996,36 @@ public class Panel : IActionListener, IChatable
             {
             }
         }
+        if (idAction == 20023)
+        {
+            InfoItem infoItem = (InfoItem)p;
+            Service.gI().friend(0, infoItem.charInfo.charID);
+            GameScr.info1.addInfo("Dịch chuyển tới " + infoItem.charInfo.cName, 0);
+
+
+            //sbyte indexYadart = PhuThai.LấyIndexItem(594);
+            //if (indexYadart == -1)
+            //{
+            //    GameScr.info1.addInfo("Làm gì có Yadart đâu !", 0);
+            //    return;
+            //}
+            //if (Char.myCharz().arrItemBag[5] == null)
+            //{
+            //    Service.gI().getItem(4, (sbyte)indexYadart);
+            //    Service.gI().gotoPlayer(infoItem.charInfo.charID);
+            //}
+            //else if (Char.myCharz().arrItemBag[5].template.id == 594)
+            //{
+            //    Service.gI().gotoPlayer(infoItem.charInfo.charID);
+            //}
+            //else
+            //{
+            //    Service.gI().getItem(4, (sbyte)indexYadart);
+            //    Service.gI().gotoPlayer(infoItem.charInfo.charID);
+            //    Service.gI().getItem(4, (sbyte)indexYadart);
+            //}
+
+        }
         if (idAction == 8002)
         {
             InfoItem infoItem2 = (InfoItem)p;
@@ -8140,7 +8181,7 @@ public class Panel : IActionListener, IChatable
         {
             GameCanvas.endDlg();
             Item item12 = (Item)p;
-            Service.gI().saleItem(0, (selected > 6) ? ((sbyte)1) : ((sbyte)0), (short)((selected >= 7) ? (selected - 6 - 1) : selected));
+            Service.gI().saleItem(0, (selected > 6) ? ((sbyte)1) : ((sbyte)0), (short)((selected >= 7) ? (selected - 6 - 1) : selected)); // ban item
         }
         if (idAction == 3003)
         {
@@ -8172,10 +8213,41 @@ public class Panel : IActionListener, IChatable
                 chatTField.parentScreen = GameCanvas.panel;
             }
             chatTField.strChat = "Nhập số lượng cần mua";
-            chatTField.tfChat.name = "Chỉ được nhập số lớn hơn 0 và nhỏ hơn 99";
+            chatTField.tfChat.name = "Chỉ được nhập số lớn hơn 0 và nhỏ hơn 100";
             chatTField.to = string.Empty;
-            chatTField.isShow = true;
             chatTField.tfChat.setIputType(TField.INPUT_TYPE_NUMERIC);
+            chatTField.isShow = true;
+            if (GameCanvas.isTouch)
+            {
+                chatTField.tfChat.doChangeToTextBox();
+            }
+            if (Main.isWindowsPhone)
+            {
+                chatTField.tfChat.strInfo = chatTField.strChat;
+            }
+            if (!Main.isPC)
+            {
+                chatTField.startChat2(this, string.Empty);
+            }
+        }
+        if (idAction == 20022)
+        {
+            Res.outz("ban nhieu");
+
+
+            if (chatTField == null)
+            {
+                chatTField = new ChatTextField();
+                chatTField.tfChat.y = GameCanvas.h - 35 - ChatTextField.gI().tfChat.height;
+                chatTField.initChatTextField();
+                chatTField.parentScreen = GameCanvas.panel;
+            }
+            chatTField.strChat = mResources.buy_tv;
+            chatTField.tfChat.name = "Chỉ được nhập số lớn hơn 0 và nhỏ hơn 5";
+            chatTField.to = string.Empty;
+            chatTField.tfChat.setIputType(TField.INPUT_TYPE_NUMERIC);
+            chatTField.isShow = true;
+
             if (GameCanvas.isTouch)
             {
                 chatTField.tfChat.doChangeToTextBox();
@@ -8189,8 +8261,8 @@ public class Panel : IActionListener, IChatable
                 chatTField.startChat2(this, string.Empty);
             }
 
-
         }
+
         if (idAction == 4000)
         {
             Clan clan = (Clan)p;
@@ -8538,14 +8610,48 @@ public class Panel : IActionListener, IChatable
                 Service.gI().chatPlayer(text, infoItem.charInfo.charID);
             }
         }
+        else if (chatTField.strChat.Equals(mResources.buy_tv))
+        {
+            GameScr.info1.addInfo("Run !", 0);
+            //int num = 0;
+            //try
+            //{
+            //    num = int.Parse(chatTField.tfChat.getText());
+            //    if (num == 0 || num >= 5)
+            //    {
+            //        GameScr.info1.addInfo("Vui lòng nhập số lượng thỏi vàng cần bán lớn hơn 0 và nhỏ hơn 5 !", 0);
+            //        return;
+            //    }
+            //    chatTField.isShow = false;
+            //    chatTField.tfChat.setIputType(TField.INPUT_TYPE_ANY);
+            //    while (num > 0)
+            //    {
+            //        Service.gI().saleItem(1,1,457);
+            //        num--;
+            //    }
+            //    if (num == 0)
+            //    {
+            //        GameScr.info1.addInfo("Bán xong !", 0);
+            //        itemBuys = -1;
+            //    }
+
+            //}
+            //catch (Exception)
+            //{
+            //    GameScr.info1.addInfo("Số lượng mua sai, vui lòng nhập số !", 0);
+            //    return;
+            //}
+
+        }
         else if (chatTField.strChat.Equals("Nhập số lượng cần mua"))
         {
             int num = 0;
             try
             {
                 num = int.Parse(chatTField.tfChat.getText());
-                if (num == 0 || num > 99) {
-                    GameScr.info1.addInfo("Vui lòng nhập số lượng mua lớn hơn 0 và nhỏ hơn 99 !", 0);
+                if (num == 0 || num > 99)
+                {
+                    GameScr.info1.addInfo("Vui lòng nhập số lượng mua lớn hơn 0 và nhỏ hơn 100 !", 0);
                     return;
                 }
                 chatTField.isShow = false;
@@ -8553,18 +8659,18 @@ public class Panel : IActionListener, IChatable
                 while (num > 0)
                 {
                     Service.gI().buyItem(3, itemBuys, 0);
-                    num--;  
+                    num--;
                 }
-                if(num == 0)
+                if (num == 0)
                 {
                     GameScr.info1.addInfo("Mua xong !", 0);
                     itemBuys = -1;
                 }
-             
+
             }
-            catch (Exception)   
+            catch (Exception)
             {
-                GameScr.info1.addInfo("Số lượng mua sai, vui lòng nhập số !",0);
+                GameScr.info1.addInfo("Số lượng mua sai, vui lòng nhập số !", 0);
                 return;
             }
         }

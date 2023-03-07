@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using static System.Collections.Specialized.BitVector32;
 
 public class PhuThai
 {
@@ -30,8 +31,21 @@ public class PhuThai
         }
         if (GameCanvas.keyAsciiPress == 'd')
         {
-            isTheGioi = !isTheGioi;
-            GameScr.info1.addInfo("Chat thế giới: " + (isTheGioi ? "Hiện" : "Ẩn"), 0);
+            Message message = null;
+            try
+            {
+                message = new Message((sbyte)(-103));
+                message.writer().writeByte(0);
+                Session_ME.gI().sendMessage(message);
+            }
+            catch (Exception ex)
+            {
+                Cout.println(ex.Message + ex.StackTrace);
+            }
+            finally
+            {
+                message.cleanup();
+            }
         }
         if (GameCanvas.keyAsciiPress == 'e')
         {
@@ -65,14 +79,26 @@ public class PhuThai
 
         if (GameCanvas.keyAsciiPress == 'w')
         {
-            //test
-            XmapController.StartRunToMapId(79);
+            
         }
 
-        if (GameCanvas.keyAsciiPress == 'q')
+        if (GameCanvas.keyAsciiPress == 's')
         {
-            //test
-            XmapController.StartRunToMapId(96);
+            Message message = null;
+            try
+            {   
+                message = new Message((sbyte)(-80));
+                message.writer().writeByte(0);
+                Session_ME.gI().sendMessage(message);
+            }
+            catch (Exception ex)
+            {
+                Cout.println(ex.Message + ex.StackTrace);
+            }
+            finally
+            {
+                message.cleanup();
+            }
         }
 
         if (GameCanvas.keyAsciiPress == 'l')
@@ -166,6 +192,18 @@ public class PhuThai
                 break;
             }
         }
+    }
+
+    public static sbyte LấyIndexItem(short itemId)
+    {
+        for (sbyte i = 0; i < Char.myCharz().arrItemBag.Length; i++)
+        {
+            if (Char.myCharz().arrItemBag[i].template.id == itemId)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void LoadSkill()

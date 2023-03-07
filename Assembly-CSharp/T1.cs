@@ -17,6 +17,7 @@ public class T1 : mResources
 		mResources.quayso = "Con số may mắn";
 		mResources.gameInfo = "Thông báo";
 		mResources.useGem = "Tự động hồi sinh";
+		mResources.buy_tv = "Nhập số lượng thỏi vàng cần bán";
 		mResources.autoFunction = "Chức năng auto";
 		mResources.sure_fusion = "Bạn có chắc muốn kết hợp vĩnh viễn với đệ tử của mình không? Bạn sẽ mất đệ tử, toàn bộ sức mạnh của đệ tử sẽ chuyển thành tiềm năng của bạn";
 		mResources.fusionForever = "Hợp thể vĩnh viễn";

@@ -22,7 +22,9 @@ public class mResources
 
 	public static string useGem;
 
-	public static string autoFunction;
+    public static string buy_tv;
+
+    public static string autoFunction;
 
 	public static string choitiep;
 

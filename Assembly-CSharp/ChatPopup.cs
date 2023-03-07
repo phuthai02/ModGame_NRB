@@ -106,20 +106,21 @@ public class ChatPopup : Effect2, IActionListener
 
 	public static void addChatPopupMultiLine(string chat, int howLong, Npc c)
 	{
-		string[] array = Res.split(chat, "\n", 0);
-		Char.isLockKey = true;
-		currChatPopup = addChatPopup(array[0], howLong, c);
-		currChatPopup.currentLine = 0;
-		currChatPopup.lines = array;
-		string caption = mResources.CONTINUE;
-		if (array.Length == 1)
-		{
-			caption = mResources.CLOSE;
-		}
-		currChatPopup.cmdNextLine = new Command(caption, currChatPopup, 8000, null);
-		currChatPopup.cmdNextLine.x = GameCanvas.w / 2 - 35;
-		currChatPopup.cmdNextLine.y = GameCanvas.h - 35;
-		SoundMn.gI().openDialog();
+		GameScr.info1.addInfo(chat, 0);
+		//string[] array = Res.split(chat, "\n", 0);
+		//Char.isLockKey = true;
+		//currChatPopup = addChatPopup(array[0], howLong, c);
+		//currChatPopup.currentLine = 0;
+		//currChatPopup.lines = array;
+		//string caption = mResources.CONTINUE;
+		//if (array.Length == 1)
+		//{
+		//	caption = mResources.CLOSE;
+		//}
+		//currChatPopup.cmdNextLine = new Command(caption, currChatPopup, 8000, null);
+		//currChatPopup.cmdNextLine.x = GameCanvas.w / 2 - 35;
+		//currChatPopup.cmdNextLine.y = GameCanvas.h - 35;
+		//SoundMn.gI().openDialog();
 	}
 
 	public static ChatPopup addChatPopupWithIcon(string chat, int howLong, Npc c, int idIcon)
