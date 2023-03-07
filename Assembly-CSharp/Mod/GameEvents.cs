@@ -1,4 +1,5 @@
-﻿using Mod.Boss;
+﻿using Mod;
+using Mod.Boss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ public class GameEvents
     {
         Boss.Update();
         BossDead.Update();
+        if (ChatTextField.gI().strChat.Replace(" ", "") != "Chat" || ChatTextField.gI().tfChat.name != "chat") return;
+        HistoryChat.gI.update();
     }
     public static void onPaintGameScr(mGraphics g)
     {
@@ -30,5 +33,25 @@ public class GameEvents
         BossDead.Paint(g);
         PlayerInMap.Paint(g);
         BossInMap.Paint(g);
+    }
+    public static bool onSendChat(string text)
+    {
+        HistoryChat.gI.append(text);
+        bool result = true;
+        return result;
+    }
+    public static void onPaintChatTextField(ChatTextField instance, mGraphics g)
+    {
+        if (instance == ChatTextField.gI() && instance.strChat.Replace(" ", "") == "Chat" && instance.tfChat.name == "chat")
+            HistoryChat.gI.paint(g);
+    }
+    public static bool onStartChatTextField(ChatTextField sender)
+    {
+        if (ChatTextField.gI().strChat.Replace(" ", "") != "Chat" || ChatTextField.gI().tfChat.name != "chat") return false;
+        if (sender == ChatTextField.gI())
+        {
+            HistoryChat.gI.show();
+        }
+        return false;
     }
 }

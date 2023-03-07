@@ -1699,7 +1699,9 @@ public class Service
 
 	public void chat(string text)
 	{
-		Message message = null;
+        if (GameEvents.onSendChat(text))
+            return;
+        Message message = null;
 		try
 		{
 			message = new Message((sbyte)44);
