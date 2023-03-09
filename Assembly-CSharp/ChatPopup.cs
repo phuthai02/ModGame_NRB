@@ -417,7 +417,7 @@ public class ChatPopup : Effect2, IActionListener
 			{
 				g.drawImage(Panel.imgStar, num + num3 / 2 - maxStarSlot * 20 / 2 + k * 20 + mGraphics.getImageWidth(Panel.imgStar), num2 + num4 - 13, 3);
 			}
-		}
+        }
 		paintCmd(g);
 	}
 

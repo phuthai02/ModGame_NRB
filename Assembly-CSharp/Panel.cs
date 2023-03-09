@@ -2092,6 +2092,14 @@ public class Panel : IActionListener, IChatable
                     {
                         text = " [+" + item.itemOption[j].param + "]";
                     }
+                    string empty = item.itemOption[j].getOptionString();
+                    if (!empty.Equals(string.Empty) && item.itemOption[j].optionTemplate.id != 72)
+                    {
+                        if (item.itemOption[j].optionTemplate.id == 107)
+                        {
+                            mFont.tahoma_7b_red.drawString(g, item.itemOption[j].param + " sao", xScroll + wScroll - 5, num2 + 6, mFont.RIGHT);
+                        }
+                    }
                 }
             }
             mFont.tahoma_7_green2.drawString(g, item.template.name + text, num + 5, num2 + 1, 0);
@@ -2109,11 +2117,16 @@ public class Panel : IActionListener, IChatable
                 }
                 if (item.itemOption.Length > 1)
                 {
-                    for (int k = 1; k < item.itemOption.Length; k++)
+                    for (int k = 1; k < item.itemOption.Length - 1; k++)
                     {
                         if (item.itemOption[k] != null && item.itemOption[k].optionTemplate.id != 102 && item.itemOption[k].optionTemplate.id != 107)
                         {
-                            text2 = text2 + "," + item.itemOption[k].getOptionString();
+                            string t = item.itemOption[k].getOptionString();
+                            if (t.Contains("HP/30s") || t.Contains("KI/30s"))
+                            {
+                                continue;
+                            }
+                            text2 = text2 + ", " + item.itemOption[k].getOptionString();
                         }
                     }
                 }
@@ -3862,9 +3875,17 @@ public class Panel : IActionListener, IChatable
                         {
                             text = " [+" + item.itemOption[j].param + "]";
                         }
+                        string empty = item.itemOption[j].getOptionString();
+                        if (!empty.Equals(string.Empty) && item.itemOption[j].optionTemplate.id != 72)
+                        {
+                            if (item.itemOption[j].optionTemplate.id == 107)
+                            {
+                                mFont.tahoma_7b_red.drawString(g, item.itemOption[j].param + " sao", xScroll + wScroll - 5, num4 + 6, mFont.RIGHT);
+                            }
+                        }
                     }
                 }
-                mFont.tahoma_7_green2.drawString(g, text + item.template.name + text, num3 + 5, num4 + 1, 0);
+                mFont.tahoma_7_green2.drawString(g,item.template.name + text, num3 + 5, num4 + 1, 0);
                 string text2 = string.Empty;
                 if (item.itemOption != null)
                 {
@@ -3883,7 +3904,12 @@ public class Panel : IActionListener, IChatable
                         {
                             if (item.itemOption[k] != null && item.itemOption[k].optionTemplate.id != 102 && item.itemOption[k].optionTemplate.id != 107)
                             {
-                                text2 = text2 + "," + item.itemOption[k].getOptionString();
+                                string t = item.itemOption[k].getOptionString();
+                                if (t.Contains("HP/30s") || t.Contains("KI/30s"))
+                                {
+                                    continue;
+                                }
+                                text2 = text2 + ", " + item.itemOption[k].getOptionString();
                             }
                         }
                     }
@@ -4297,17 +4323,28 @@ public class Panel : IActionListener, IChatable
                 {
                     if (item.itemOption[j].optionTemplate.id == 72)
                     {
-                        text = " [" + item.itemOption[j].getOptionString() + "]";
+                        text = " [+" + item.itemOption[j].param + "]";
+                    }
+                    string empty = item.itemOption[j].getOptionString();
+                    if (!empty.Equals(string.Empty) && item.itemOption[j].optionTemplate.id != 72)
+                    {
+                        if (item.itemOption[j].optionTemplate.id == 107)
+                        {
+                            mFont.tahoma_7b_red.drawString(g, item.itemOption[j].param + " sao", xScroll + wScroll - 5, num6 + num8 / 2 - 5, mFont.RIGHT);
+                        }
                     }
                 }
             }
-            mFont.tahoma_7_green2.drawString(g, text + item.template.name, num2 + 5, num3 + 1, 0);
+
+            mFont.tahoma_7_green2.drawString(g, item.template.name + text, num2 + 5, num3 + 1, 0);
             string text2 = string.Empty;
             if (item.itemOption != null)
             {
                 if (item.itemOption.Length != 0 && item.itemOption[0] != null)
                 {
-                    text2 += item.itemOption[0].getOptionString();
+                    string itemOption0 = item.itemOption[0].getOptionString();
+
+                    text2 += itemOption0;
                 }
                 mFont mFont2 = mFont.tahoma_7_blue;
                 if (item.compare < 0 && item.template.type != 5)
@@ -4316,11 +4353,16 @@ public class Panel : IActionListener, IChatable
                 }
                 if (item.itemOption.Length > 1)
                 {
-                    for (int k = 1; k < item.itemOption.Length; k++)
+                    for (int k = 1; k < item.itemOption.Length - 1; k++)
                     {
                         if (item.itemOption[k] != null && item.itemOption[k].optionTemplate.id != 102 && item.itemOption[k].optionTemplate.id != 107)
                         {
-                            text2 = text2 + "," + item.itemOption[k].getOptionString();
+                            string t = item.itemOption[k].getOptionString();
+                            if (t.Contains("HP/30s") || t.Contains("KI/30s"))
+                            {
+                                continue;
+                            }
+                            text2 = text2 + ", " + item.itemOption[k].getOptionString();
                         }
                     }
                 }
@@ -4334,6 +4376,7 @@ public class Panel : IActionListener, IChatable
         }
         paintScrollArrow(g);
     }
+
 
     public Member getCurrMember()
     {
@@ -4877,6 +4920,14 @@ public class Panel : IActionListener, IChatable
                     {
                         text = " [+" + item.itemOption[k].param + "]";
                     }
+                    string empty = item.itemOption[k].getOptionString();
+                    if (!empty.Equals(string.Empty) && item.itemOption[k].optionTemplate.id != 72)
+                    {
+                        if (item.itemOption[k].optionTemplate.id == 107)
+                        {
+                            mFont.tahoma_7b_red.drawString(g, item.itemOption[k].param + " sao", xScroll + wScroll - 5, num2 + 6, mFont.RIGHT);
+                        }
+                    }
                 }
             }
             mFont.tahoma_7_green2.drawString(g, item.template.name + text, num + 5, num2 + 1, 0);
@@ -4885,7 +4936,8 @@ public class Panel : IActionListener, IChatable
             {
                 if (item.itemOption.Length != 0 && item.itemOption[0] != null && item.itemOption[0].optionTemplate.id != 102 && item.itemOption[0].optionTemplate.id != 107)
                 {
-                    text2 += item.itemOption[0].getOptionString();
+                    string itemOption0 = item.itemOption[0].getOptionString();
+                    text2 += itemOption0;
                 }
                 mFont mFont2 = mFont.tahoma_7_blue;
                 if (item.compare < 0 && item.template.type != 5)
@@ -4894,11 +4946,16 @@ public class Panel : IActionListener, IChatable
                 }
                 if (item.itemOption.Length > 1)
                 {
-                    for (int l = 1; l < item.itemOption.Length; l++)
+                    for (int l = 1; l < item.itemOption.Length - 1; l++)
                     {
                         if (item.itemOption[l] != null && item.itemOption[l].optionTemplate.id != 102 && item.itemOption[l].optionTemplate.id != 107)
                         {
-                            text2 = text2 + "," + item.itemOption[l].getOptionString();
+                            string t = item.itemOption[l].getOptionString();
+                            if (t.Contains("HP/30s") || t.Contains("KI/30s"))
+                            {
+                                continue;
+                            }
+                            text2 = text2 + ", " + item.itemOption[l].getOptionString();
                         }
                     }
                 }
@@ -4977,7 +5034,16 @@ public class Panel : IActionListener, IChatable
                     {
                         text = " [+" + item.itemOption[j].param + "]";
                     }
+                    string empty = item.itemOption[j].getOptionString();
+                    if (!empty.Equals(string.Empty) && item.itemOption[j].optionTemplate.id != 72)
+                    {
+                        if (item.itemOption[j].optionTemplate.id == 107)
+                        {
+                            mFont.tahoma_7b_red.drawString(g, item.itemOption[j].param + " sao", xScroll + wScroll - 5, num4 + 6, mFont.RIGHT);
+                        }
+                    }
                 }
+
             }
             mFont.tahoma_7_green2.drawString(g, item.template.name + text, num3 + 5, num4 + 1, 0);
             string text2 = string.Empty;
@@ -4998,7 +5064,12 @@ public class Panel : IActionListener, IChatable
                     {
                         if (item.itemOption[k] != null && item.itemOption[k].optionTemplate.id != 102 && item.itemOption[k].optionTemplate.id != 107)
                         {
-                            text2 = text2 + "," + item.itemOption[k].getOptionString();
+                            string t = item.itemOption[k].getOptionString();
+                            if (t.Contains("HP/30s") || t.Contains("KI/30s"))
+                            {
+                                continue;
+                            }
+                            text2 = text2 + ", " + item.itemOption[k].getOptionString();
                         }
                     }
                 }
@@ -7204,6 +7275,7 @@ public class Panel : IActionListener, IChatable
             currInfoItem = selected;
             myVector.addElement(new Command(mResources.REVENGE, this, 10000, (InfoItem)vEnemy.elementAt(currInfoItem)));
             myVector.addElement(new Command(mResources.DELETE, this, 10001, (InfoItem)vEnemy.elementAt(currInfoItem)));
+            myVector.addElement(new Command(mResources.den, this, 8004, (InfoItem)vEnemy.elementAt(currInfoItem)));
             GameCanvas.menu.startAt(myVector, X, (selected + 1) * ITEM_HEIGHT - cmy + yScroll);
             addFriend((InfoItem)vEnemy.elementAt(selected));
         }
@@ -7252,7 +7324,7 @@ public class Panel : IActionListener, IChatable
             currInfoItem = selected - 1;
             myVector.addElement(new Command(mResources.CHAT, this, 8001, (InfoItem)logChat.elementAt(currInfoItem)));
             myVector.addElement(new Command(mResources.make_friend, this, 8003, (InfoItem)logChat.elementAt(currInfoItem)));
-            myVector.addElement(new Command("Teleport", this, 20023, (InfoItem)logChat.elementAt(currInfoItem)));
+            myVector.addElement(new Command(mResources.den, this, 8004, (InfoItem)logChat.elementAt(currInfoItem)));
             GameCanvas.menu.startAt(myVector, X, (selected + 1) * ITEM_HEIGHT - cmy + yScroll);
             addLogMessage((InfoItem)logChat.elementAt(selected - 1));
         }
@@ -7458,6 +7530,7 @@ public class Panel : IActionListener, IChatable
                     {
                         myVector4.addElement(new Command(mResources.kick_clan_mem, this, 5004, currMem));
                     }
+                    myVector4.addElement(new Command(mResources.den, this, 8005, currMem.ID));
                 }
                 GameCanvas.menu.startAt(myVector4, X, (selected + 1) * ITEM_HEIGHT - cmy + yScroll);
                 addClanMemberDetail(currMem);
@@ -7472,6 +7545,7 @@ public class Panel : IActionListener, IChatable
                 {
                     MyVector myVector5 = new MyVector();
                     myVector5.addElement(new Command(mResources.CLOSE, this, 8000, currMess));
+                    myVector5.addElement(new Command(mResources.den, this, 8005, currMess.playerId));
                     GameCanvas.menu.startAt(myVector5, X, (selected + 1) * ITEM_HEIGHT - cmy + yScroll);
                     addMessageDetail(currMess);
                 }
@@ -7996,36 +8070,6 @@ public class Panel : IActionListener, IChatable
             {
             }
         }
-        if (idAction == 20023)
-        {
-            InfoItem infoItem = (InfoItem)p;
-            Service.gI().friend(0, infoItem.charInfo.charID);
-            GameScr.info1.addInfo("Dịch chuyển tới " + infoItem.charInfo.cName, 0);
-
-
-            //sbyte indexYadart = PhuThai.LấyIndexItem(594);
-            //if (indexYadart == -1)
-            //{
-            //    GameScr.info1.addInfo("Làm gì có Yadart đâu !", 0);
-            //    return;
-            //}
-            //if (Char.myCharz().arrItemBag[5] == null)
-            //{
-            //    Service.gI().getItem(4, (sbyte)indexYadart);
-            //    Service.gI().gotoPlayer(infoItem.charInfo.charID);
-            //}
-            //else if (Char.myCharz().arrItemBag[5].template.id == 594)
-            //{
-            //    Service.gI().gotoPlayer(infoItem.charInfo.charID);
-            //}
-            //else
-            //{
-            //    Service.gI().getItem(4, (sbyte)indexYadart);
-            //    Service.gI().gotoPlayer(infoItem.charInfo.charID);
-            //    Service.gI().getItem(4, (sbyte)indexYadart);
-            //}
-
-        }
         if (idAction == 8002)
         {
             InfoItem infoItem2 = (InfoItem)p;
@@ -8034,7 +8078,22 @@ public class Panel : IActionListener, IChatable
         if (idAction == 8004)
         {
             InfoItem infoItem3 = (InfoItem)p;
-            Service.gI().gotoPlayer(infoItem3.charInfo.charID);
+            //if (PhuThai.LấyIndexYardrat() == -1)
+            //{
+            //GameScr.info1.addInfo((PhuThai.LấyIndexYardrat() == -1).ToString(), 0);
+            //return;
+            //}
+            PhuThai.teleToCharVip(infoItem3.charInfo.charID);
+        }
+        if (idAction == 8005)
+        {
+            //if (PhuThai.LấyIndexYardrat() == -1)
+            //{
+            //    GameScr.info1.addInfo("Không có cải trang Yardrat", 0);
+            //    return;
+
+            //}
+            PhuThai.teleToCharVip((int)p);
         }
         if (idAction == 8001)
         {

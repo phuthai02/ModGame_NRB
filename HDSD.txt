@@ -1,26 +1,44 @@
 * Phím tắt:
-	-- A: bật/tắt ak
-	-- S: mở danh sách bạn bè
-	-- D: mở danh sách đổi cờ zzz
-	-- F: đổi danh sách đổi khu
-	-- G: giao dịch
-	-- H: cập nhật khu theo thời gian(mặc định bật) zzz
-	-- J: qua map trái	
-	-- K: qua map giữa (ví dụ rừng karin, rừng bambo,...)
-	-- L: qua map phải
-	
+	01 -- Q:
+	02 -- W:
+	03 -- E: bật tắt auto hồi sinh (mặc định bật)
+	04 -- R:
+	05 -- T: tự động luyện tập VIP
+	06 -- Y:
+	07 -- U:
+	08 -- I:
+	09 -- O:
+	10 -- P:
 
+	11 -- A: bật/tắt tự đánh
+	12 -- S: mở danh sách bạn bè
+	13 -- D: mở danh sách đổi cờ
+	14 -- F: đổi danh sách đổi khu
+	15 -- G: giao dịch
+	16 -- H: ẩn/hiện thông báo boss, tiêu diệt boss, danh sách boss (mặc định bật)
+	17 -- J: qua map trái	
+	18 -- K: qua map giữa (ví dụ rừng karin, rừng bambo,...)
+	19 -- L: qua map phải
+	
+	20 -- Z:
+	21 -- X: mở menu Xmap
+	22 -- C: dùng Capsule
+	23 -- V: 
+	24 -- B: dùng bông tai
+	25 -- N: bật/tắt nhặt all (mặc định bật) zzzzzzzzzzzzz
+	26 -- M: menu mod zzzzzzzzzzzz
 
-	-- B: dùng bông tai
-	-- C: dùng capsule
-	
-	-- E: bật tắt auto hồi sinh (mặc định bật)
-	
-	
-	-- H: ẩn/hiện thông báo boss, tiêu diệt boss, danh sách boss (mặc định bật)
-	-- I: auto item zzzzzzzzzzzzzzzz
-	
-	-- M: menu mod zzzzzzzzzzzz
-	-- N: bật/tắt nhặt all (mặc định bật) zzzzzzzzzzzzz
+	9 -- Mặc set đồ 1
+	0 -- Mặc set đồ 2
+* Lệnh chat:
 
+* Hỗ trợ:
+	- Hiện người chơi trong map, dịch chuyển và focus người chơi
+	- Thông báo boss hiện khu boss(nếu đã từng vào khu boss), hiện boss đã chết, dịch chuyển đến map boss,...
+	- Danh sách boss nhấn vào để dịch chuyển đến và focus boss
+	- Mua nhiều vật phẩm siêu nhanh, bán nhiều thỏi vàng zzzzzzz
+	- Dịch chuyển đến người chơi chat thế giới, người chơi chat bang, người chơi trong bang không cần kết bạn hay mặc yardat zzzzzzz
+	- Xoá hiệu ứng choáng, hiện thời gian choáng, thời gian trói  zzzzzzz
+	- 
+		
 

@@ -79,14 +79,14 @@ public class PhuThai
 
         if (GameCanvas.keyAsciiPress == 'w')
         {
-            
+
         }
 
         if (GameCanvas.keyAsciiPress == 's')
         {
             Message message = null;
             try
-            {   
+            {
                 message = new Message((sbyte)(-80));
                 message.writer().writeByte(0);
                 Session_ME.gI().sendMessage(message);
@@ -206,6 +206,18 @@ public class PhuThai
         return -1;
     }
 
+    public static int LấyIndexYardrat()
+    {
+        for (int i = 0; i < Char.myCharz().arrItemBag.Length; i++)
+        {
+            if (Char.myCharz().arrItemBag[i].template.name.Contains("Yardrat"))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void LoadSkill()
     {
         int gender = Char.myCharz().cgender;
@@ -221,7 +233,32 @@ public class PhuThai
         LoadMap.teleportMyChar(npc.cx, npc.ySd - npc.ySd % 24);
         Char.myCharz().npcFocus = npc;
     }
+    public static void teleToCharVip(int CharID)
+    {
+        int y = LấyIndexYardrat();
+     
+        Item[] arrItemBody = Char.myCharz().arrItemBody;
+        if (arrItemBody[5] == null)
+        {
+            Service.gI().getItem(4, (sbyte)y);
+            Service.gI().gotoPlayer(CharID);
+            Service.gI().getItem(5, 5);
+            return;
+        }
+        if (arrItemBody[5].template.name.Contains("Yardrat"))
+        {
+            Service.gI().gotoPlayer(CharID);
+            return;
+        }
+        if (!arrItemBody[5].template.name.Contains("Yardrat"))
+        {
+            Service.gI().getItem(4, (sbyte)y);
+            Service.gI().gotoPlayer(CharID);
+            Service.gI().getItem(4, (sbyte)y);
+            return;
+        }
 
+    }
 }
 
 
