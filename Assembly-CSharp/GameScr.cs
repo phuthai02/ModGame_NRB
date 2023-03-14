@@ -3,7 +3,6 @@ using Assets.src.g;
 using UnityEngine;
 using System.IO;
 using System.Text;
-using Mod.Boss;
 
 public class GameScr : mScreen, IChatable
 {
@@ -939,7 +938,7 @@ public class GameScr : mScreen, IChatable
         imgLbtnFocus2 = GameCanvas.loadImage("/mainImage/myTexture2dbtnlf2.png");
         imgPanel2 = GameCanvas.loadImage("/mainImage/panel2.png");
         imgSP = GameCanvas.loadImage("/mainImage/SP.png");
-        //imgPanel = GameCanvas.loadImage("/mainImage/myTexture2dpanel.png");
+        imgPanel = GameCanvas.loadImage("/mainImage/myTexture2dpanel.png");
         imgHPLost = GameCanvas.loadImage("/mainImage/myTexture2dhpLost.png");
         imgMPLost = GameCanvas.loadImage("/mainImage/myTexture2dmpLost.png");
         imgMP = GameCanvas.loadImage("/mainImage/myTexture2dMP.png");
@@ -948,12 +947,13 @@ public class GameScr : mScreen, IChatable
         imgSkill2 = GameCanvas.loadImage("/mainImage/myTexture2dskill2.png");
         imgMenu = GameCanvas.loadImage("/mainImage/myTexture2dmenu.png");
         imgFocus = GameCanvas.loadImage("/mainImage/myTexture2dfocus.png");
+        imgChatPC = GameCanvas.loadImage("/pc/chat.png");
         if (GameCanvas.isTouch)
         {
             imgArrow = GameCanvas.loadImage("/mainImage/myTexture2darrow.png");
             imgArrow2 = GameCanvas.loadImage("/mainImage/myTexture2darrow2.png");
             imgChat = GameCanvas.loadImage("/mainImage/myTexture2dchat.png");
-            imgChat2 = GameCanvas.loadImage("/mainImage/myTexture2dchat2.png");
+            //imgChat2 = GameCanvas.loadImage("/mainImage/myTexture2dchat2.png");
             imgFocus2 = GameCanvas.loadImage("/mainImage/myTexture2dfocus2.png");
             //imgHP1 = GameCanvas.loadImage("/mainImage/myTexture2dPea0.png");
             //imgHP2 = GameCanvas.loadImage("/mainImage/myTexture2dPea1.png");
@@ -2683,7 +2683,7 @@ public class GameScr : mScreen, IChatable
                         {
                             ChatTextField.gI().startChat(this, string.Empty);
                         }
-                        PhuThai.PhímTắt();
+                        HotKey.addHotKey();
                     }
                     else if (!GameCanvas.isMoveNumberPad)
                     {
@@ -4360,20 +4360,29 @@ public class GameScr : mScreen, IChatable
         }
     }
 
-    public static bool chay1lan = true;
-    public static bool loadSkill = true;
+    public static bool runOneTime = true;
     public override void update()
     {
         GameEvents.onUpdateGameScr();
+
+        if (AutoAttack.isAttack && GameCanvas.gameTick % 10 == 0)
+        {
+            AutoAttack.attackMob();
+        }
+
+        if (AutoAttack.isFindMob && GameCanvas.gameTick % 70 == 0)
+        {
+            AutoAttack.findMob();
+        }
         if (GameCanvas.gameTick % 20 == 0)
         {
             Time.timeScale = int.Parse(File.ReadAllText("Mod/Data/speedGame.txt"));
         }
-        if (GameCanvas.gameTick % 20 == 0 && PhuThai.isHoiSinh && Char.myCharz().meDead)
+        if (GameCanvas.gameTick % 20 == 0 && AutoWakeUp.isWakeUp && Char.myCharz().meDead)
         {
             Service.gI().wakeUpFromDead();
         }
-        if (chay1lan)
+        if (runOneTime)
         {
             TileMap.mapNames[84] = "Siêu Thị";
 
@@ -4420,27 +4429,10 @@ public class GameScr : mScreen, IChatable
             TileMap.mapNames[102] = "Nhà Bunma";
 
             TileMap.mapNames[158] = "Trạm tàu Hủy Diệt";
+            Utilities.LoadSkill();
 
-            chay1lan = false;
+            runOneTime = false;
         }
-        if (loadSkill)
-        {
-            PhuThai.LoadSkill();
-            loadSkill = false;
-
-        }
-
-        if (PhuThai.isTuDanh && GameCanvas.gameTick % 10 == 0)
-        {
-            PhuThai.AutoĐánh();
-        }
-
-        if (PhuThai.isTimQuai && GameCanvas.gameTick % 100 == 0)
-        {
-            PhuThai.TìmQuái();
-        }
-
-
 
         if (GameCanvas.keyPressed[16])
         {
@@ -4857,7 +4849,7 @@ public class GameScr : mScreen, IChatable
         {
             if (mScreen.keyTouch == 20)
             {
-                g.drawImage(imgChat2, Char.myCharz().cmdMenu.x + cmx, Char.myCharz().cmdMenu.y + cmy, mGraphics.HCENTER | mGraphics.VCENTER);
+                g.drawImage(imgChat, Char.myCharz().cmdMenu.x + cmx, Char.myCharz().cmdMenu.y + cmy, mGraphics.HCENTER | mGraphics.VCENTER);
             }
             else
             {
@@ -5012,15 +5004,15 @@ public class GameScr : mScreen, IChatable
         PopUp.paintAll(g);
         if (TileMap.mapID == 120)
         {
-            //if (percentMabu != 100)
-            //{
-            //    int w = percentMabu * mGraphics.getImageWidth(imgHPLost) / 100;
-            //    int num10 = percentMabu;
-            //    g.drawImage(imgHPLost, TileMap.pxw / 2 - mGraphics.getImageWidth(imgHPLost) / 2, 220, 0);
-            //    g.setClip(TileMap.pxw / 2 - mGraphics.getImageWidth(imgHPLost) / 2, 220, w, 10);
-            //    g.drawImage(imgHP, TileMap.pxw / 2 - mGraphics.getImageWidth(imgHPLost) / 2, 220, 0);
-            //    g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-            //}
+            if (percentMabu != 100)
+            {
+                int w = percentMabu * mGraphics.getImageWidth(imgHPLost) / 100;
+                int num10 = percentMabu;
+                g.drawImage(imgHPLost, TileMap.pxw / 2 - mGraphics.getImageWidth(imgHPLost) / 2, 220, 0);
+                g.setClip(TileMap.pxw / 2 - mGraphics.getImageWidth(imgHPLost) / 2, 220, w, 10);
+                g.drawImage(imgHP, TileMap.pxw / 2 - mGraphics.getImageWidth(imgHPLost) / 2, 220, 0);
+                g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+            }
             if (mabuEff)
             {
                 tMabuEff++;
@@ -5096,31 +5088,11 @@ public class GameScr : mScreen, IChatable
         {
             return;
         }
-        string nhapNhay = File.ReadAllText("Mod/Data/nhapNhay.txt");
-        if (GameCanvas.gameTick / (int)Time.timeScale % 10 != 0 && GameCanvas.gameTick / (int)Time.timeScale % 10 != 1 && GameCanvas.gameTick / (int)Time.timeScale % 10 != 2 &&
-        GameCanvas.gameTick / (int)Time.timeScale % 10 != 3 && GameCanvas.gameTick / (int)Time.timeScale % 10 != 4)
-        {
-            mFont.tahoma_7b_red.drawString(g, nhapNhay, GameCanvas.w / 2, 5, 2, mFont.tahoma_7b_blue);
-        }
-        else
-        {
-            mFont.tahoma_7b_yellow.drawString(g, nhapNhay, GameCanvas.w / 2, 5, 2, mFont.tahoma_7b_red);
-        }
-        mFont.tahoma_7_white.drawString(g, "Thời gian: " + DateTime.Now.ToString("HH:mm:ss tt"), GameCanvas.w / 2, 17, 2);
-        mFont.tahoma_7_white.drawString(g, TileMap.mapNames[TileMap.mapID] + " [" + TileMap.mapID + "]" + " - Khu: " + TileMap.zoneID, GameCanvas.w / 2, 27, 2);
-        //mFont.tahoma_7_white.drawString(g, "Toạ độ X: " + Char.myCharz().cx + " - Y: " + Char.myCharz().cy, GameCanvas.w / 2, 37, 2);
 
         if (isFreez)
         {
             mFont.tahoma_7b_red.drawString(g, "Choáng: " + (Char.myCharz().freezSeconds + 1) + "s", GameCanvas.w / 2, 100, 2);
         }
-
-        //mFont.tahoma_7b_red.drawString(g, "Trói: " + Char.myCharz().isFreez, GameCanvas.w / 2, 100, 2); 
-    
-        //Info left
-        mFont.tahoma_7b_red.drawString(g, "HP: " + NinjaUtil.getMoneys(Char.myCharz().cHP) + "/" + NinjaUtil.getMoneys(Char.myCharz().cHPFull) + " - " + Convert.ToInt64(Char.myCharz().cHP) * 100 / Convert.ToInt64(Char.myCharz().cHPFull) + "%", 10, 7, 0);
-        mFont.tahoma_7b_blue.drawString(g, "MP: " + NinjaUtil.getMoneys(Char.myCharz().cMP) + "/" + NinjaUtil.getMoneys(Char.myCharz().cMPFull) + " - " + Convert.ToInt64(Char.myCharz().cMP) * 100 / Convert.ToInt64(Char.myCharz().cMPFull) + "%", 10, 19, 0);
-        mFont.tahoma_7b_green.drawString(g, "SD: " + NinjaUtil.getMoneys(Char.myCharz().cDamFull) + "  -  CM: " + NinjaUtil.getMoneys(Char.myCharz().cCriticalFull) + "%", 10, 31, 0);
 
         GameCanvas.debug("PA21", 1);
         GameCanvas.debug("PA18", 1);
@@ -5602,11 +5574,11 @@ public class GameScr : mScreen, IChatable
         {
             if (mScreen.keyTouch == 15 || mScreen.keyMouse == 15)
             {
-                g.drawImage((!Main.isPC) ? imgChat2 : imgChatsPC2, xC + 17, yC + 17 + mGraphics.addYWhenOpenKeyBoard, mGraphics.HCENTER | mGraphics.VCENTER);
+                g.drawImage((!Main.isPC) ? imgChat : imgChatPC, xC + 17, yC + 20 + mGraphics.addYWhenOpenKeyBoard, mGraphics.HCENTER | mGraphics.VCENTER);
             }
             else
             {
-                g.drawImage((!Main.isPC) ? imgChat : imgChatPC, xC + 17, yC + 17 + mGraphics.addYWhenOpenKeyBoard, mGraphics.HCENTER | mGraphics.VCENTER);
+                g.drawImage((!Main.isPC) ? imgChat : imgChatPC, xC + 17, yC + 20 + mGraphics.addYWhenOpenKeyBoard, mGraphics.HCENTER | mGraphics.VCENTER);
             }
         }
         if (!isUseTouch)
@@ -5614,113 +5586,117 @@ public class GameScr : mScreen, IChatable
         }
     }
 
-    public void paintImageBarRight(mGraphics g, Char c)
+    public void paintImageBarRight(mGraphics g, Char c) // Vẽ máu
     {
-        //    int num = c.cHP * hpBarW / c.cHPFull;
-        //    int num2 = c.cMP * mpBarW;
-        //    int num3 = dHP * hpBarW / c.cHPFull;
-        //    int num4 = dMP * mpBarW;
-        //    g.setClip(GameCanvas.w / 2 + 58 - mGraphics.getImageWidth(imgPanel), 0, 95, 100);
-        //    g.drawRegion(imgPanel, 0, 0, mGraphics.getImageWidth(imgPanel), mGraphics.getImageHeight(imgPanel), 2, GameCanvas.w / 2 + 60, 0, mGraphics.RIGHT | mGraphics.TOP);
-        //    g.setClip(GameCanvas.w / 2 + 60 - 83 - hpBarW + hpBarW - num3, 5, num3, 10);
-        //    g.drawImage(imgHPLost, GameCanvas.w / 2 + 60 - 83, 5, mGraphics.RIGHT | mGraphics.TOP);
-        //    g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //g.setClip(GameCanvas.w / 2 + 60 - 83 - hpBarW + hpBarW - num, 5, num, 10);
-        //    g.drawImage(imgHP, GameCanvas.w / 2 + 60 - 83, 5, mGraphics.RIGHT | mGraphics.TOP);
-
-        //    g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //    g.setClip(GameCanvas.w / 2 + 60 - 83 - mpBarW + hpBarW - num4, 20, num4, 6);
-        //    g.drawImage(imgMPLost, GameCanvas.w / 2 + 60 - 83, 20, mGraphics.RIGHT | mGraphics.TOP);
-        //    g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-
-        //    g.setClip(GameCanvas.w / 2 + 60 - 83 - mpBarW + hpBarW - num2, 20, num2, 6);
-        //    g.drawImage(imgMP, GameCanvas.w / 2 + 60 - 83, 20, mGraphics.RIGHT | mGraphics.TOP);
-        //    g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+        GUIStyle style = new GUIStyle(GUI.skin.label)
+        {
+            alignment = TextAnchor.UpperLeft,
+            fontSize = 7 * mGraphics.zoomLevel,
+            fontStyle = FontStyle.Bold,
+        };
+        int num = c.cHP * hpBarW / c.cHPFull;
+        int num2 = c.cMP * mpBarW;
+        int num3 = dHP * hpBarW / c.cHPFull;
+        int num4 = dMP * mpBarW;
+        g.setClip(GameCanvas.w / 2 + 58 - mGraphics.getImageWidth(imgPanel), 0, 95, 100);
+        g.drawRegion(imgPanel, 0, 0, mGraphics.getImageWidth(imgPanel), mGraphics.getImageHeight(imgPanel), 2, GameCanvas.w / 2 + 60, 0, mGraphics.RIGHT | mGraphics.TOP);
+        g.setClip(GameCanvas.w / 2 + 60 - 83 - hpBarW + hpBarW - num3, 5, num3, 10);
+        g.drawImage(imgHPLost, GameCanvas.w / 2 + 60 - 83, 5, mGraphics.RIGHT | mGraphics.TOP);
+        g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+        g.setClip(GameCanvas.w / 2 + 60 - 83 - hpBarW + hpBarW - num, 5, num, 10);
+        g.drawImage(imgHP, GameCanvas.w / 2 + 60 - 83, 5, mGraphics.RIGHT | mGraphics.TOP);
+        g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+        g.setClip(GameCanvas.w / 2 + 60 - 83 - mpBarW + hpBarW - num4, 20, num4, 6);
+        g.drawImage(imgMPLost, GameCanvas.w / 2 + 60 - 83, 20, mGraphics.RIGHT | mGraphics.TOP);
+        g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+        g.setClip(GameCanvas.w / 2 + 60 - 83 - mpBarW + hpBarW - num2, 20, num2, 6);
+        g.drawImage(imgMP, GameCanvas.w / 2 + 60 - 83, 20, mGraphics.RIGHT | mGraphics.TOP);
+        g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
     }
 
     private void paintImageBar(mGraphics g, bool isLeft, Char c)
     {
-        //if (c != null)
-        //{
-        //int num = 0;
-        //int num2 = 0;
-        //int num3 = 0;
-        //int num4 = 0;
-        //if (c.charID == Char.myCharz().charID)
-        //{
-        //    num = dHP * hpBarW / c.cHPFull;
-        //    num2 = dMP * mpBarW / c.cMPFull;
-        //    num3 = c.cHP * hpBarW / c.cHPFull;
-        //    num4 = c.cMP * mpBarW / c.cMPFull;
-        //}
-        //else
-        //{
-        //    num = c.dHP * hpBarW / c.cHPFull;
-        //    num2 = c.perCentMp * mpBarW / 100;
-        //    num3 = c.cHP * hpBarW / c.cHPFull;
-        //    num4 = c.perCentMp * mpBarW / 100;
-        //}
-        //if (Char.myCharz().secondPower > 0)
-        //{
-        //    int w = Char.myCharz().powerPoint * spBarW / Char.myCharz().maxPowerPoint;
-        //    g.drawImage(imgPanel2, 58, 29, 0);
-        //    g.setClip(83, 31, w, 10);
-        //    g.drawImage(imgSP, 83, 31, 0);
-        //    g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //    mFont.tahoma_7_white.drawString(g, Char.myCharz().strInfo + ":" + Char.myCharz().powerPoint + "/" + Char.myCharz().maxPowerPoint, 115, 29, 2);
-        //}
-        //if (c.charID != Char.myCharz().charID)
-        //{
-        //    g.setClip(mGraphics.getImageWidth(imgPanel) - 95, 0, 95, 100);
-        //}
-        ////g.drawImage(imgPanel, 0, 0, 0);
-        //if (isLeft)
-        //{
-        //    g.setClip(83, 5, num, 10);
-        //}
-        //else
-        //{
-        //    g.setClip(83 + hpBarW - num, 5, num, 10);
-        //}
-        ////g.drawImage(imgHPLost, 83, 5, 0);
-        //g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //if (isLeft)
-        //{
-        //    g.setClip(83, 5, num3, 10);
-        //}
-        //else
-        //{
-        //    g.setClip(83 + hpBarW - num3, 5, num3, 10);
-        //}
-        ////g.drawImage(imgHP, 83, 5, 0);
-        //g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //if (isLeft)
-        //{
-        //    g.setClip(83, 20, num2, 6);
-        //}
-        //else
-        //{
-        //    g.setClip(83 + mpBarW - num2, 20, num2, 6);
-        //}
-        ////g.drawImage(imgMPLost, 83, 20, 0);
-        //g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //if (isLeft)
-        //{
-        //    g.setClip(83, 20, num2, 6);
-        //}
-        //else
-        //{
-        //    g.setClip(83 + mpBarW - num4, 20, num4, 6);
-        //}
-        ////g.drawImage(imgMP, 83, 20, 0);
-        //g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //if (Char.myCharz().cMP == 0 && GameCanvas.gameTick % 10 > 5)
-        //{
-        //    g.setClip(83, 20, 2, 6);
-        //    g.drawImage(imgMPLost, 83, 20, 0);
-        //    g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-        //}
-        //}
+        if (c != null)
+        {
+            int num = 0;
+            int num2 = 0;
+            int num3 = 0;
+            int num4 = 0;
+            if (c.charID == Char.myCharz().charID)
+            {
+                num = dHP * hpBarW / c.cHPFull;
+                num2 = dMP * mpBarW / c.cMPFull;
+                num3 = c.cHP * hpBarW / c.cHPFull;
+                num4 = c.cMP * mpBarW / c.cMPFull;
+            }
+            else
+            {
+                num = c.dHP * hpBarW / c.cHPFull;
+                num2 = c.perCentMp * mpBarW / 100;
+                num3 = c.cHP * hpBarW / c.cHPFull;
+                num4 = c.perCentMp * mpBarW / 100;
+            }
+            if (Char.myCharz().secondPower > 0)
+            {
+                int w = Char.myCharz().powerPoint * spBarW / Char.myCharz().maxPowerPoint;
+                g.drawImage(imgPanel2, 58, 29, 0);
+                g.setClip(83, 31, w, 10);
+                g.drawImage(imgSP, 83, 31, 0);
+                g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+                mFont.tahoma_7_white.drawString(g, Char.myCharz().strInfo + ":" + Char.myCharz().powerPoint + "/" + Char.myCharz().maxPowerPoint, 115, 29, 2);
+            }
+            if (c.charID != Char.myCharz().charID)
+            {
+                g.setClip(mGraphics.getImageWidth(imgPanel) - 95, 0, 95, 100);
+            }
+            g.drawImage(imgPanel, 0, 0, 0);
+            if (isLeft)
+            {
+                g.setClip(83, 5, num, 10);
+            }
+            else
+            {
+                g.setClip(83 + hpBarW - num, 5, num, 10);
+            }
+            g.drawImage(imgHPLost, 83, 5, 0);
+            g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+            if (isLeft)
+            {
+                g.setClip(83, 5, num3, 10);
+            }
+            else
+            {
+                g.setClip(83 + hpBarW - num3, 5, num3, 10);
+            }
+            g.drawImage(imgHP, 83, 5, 0);
+            g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+            if (isLeft)
+            {
+                g.setClip(83, 20, num2, 6);
+            }
+            else
+            {
+                g.setClip(83 + mpBarW - num2, 20, num2, 6);
+            }
+            g.drawImage(imgHPLost, 83, 20, 0);
+            g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+            if (isLeft)
+            {
+                g.setClip(83, 20, num2, 6);
+            }
+            else
+            {
+                g.setClip(83 + mpBarW - num4, 20, num4, 6);
+            }
+            g.drawImage(imgMP, 83, 20, 0);
+            g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+            if (Char.myCharz().cMP == 0 && GameCanvas.gameTick % 10 > 5)
+            {
+                g.setClip(83, 20, 2, 6);
+                g.drawImage(imgMPLost, 83, 20, 0);
+                g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
+            }
+        }
     }
 
     public void getInjure()
@@ -5789,20 +5765,53 @@ public class GameScr : mScreen, IChatable
             }
             else if (Char.myCharz().mobFocus != null)
             {
-                mFont.tahoma_7_yellow.drawString(g, "Focus: " + Char.myCharz().mobFocus.getTemplate().name + " - HP: " + NinjaUtil.getMoneys(Char.myCharz().mobFocus.hp) + " [" + Char.myCharz().mobFocus.hp * 100 / Char.myCharz().mobFocus.maxHp + "%]", GameCanvas.w / 2, 37, 2);
+                if (Char.myCharz().mobFocus.getTemplate() != null)
+                {
+                    mFont.tahoma_7b_green2.drawString(g, Char.myCharz().mobFocus.getTemplate().name, imgScrW / 2, 9 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
+                }
+                if (Char.myCharz().mobFocus.templateId != 0)
+                {
+                    mFont.tahoma_7b_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().mobFocus.hp) + string.Empty, imgScrW / 2, 22 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
+                }
             }
             else if (Char.myCharz().npcFocus != null)
             {
-                mFont.tahoma_7_yellow.drawString(g, "Focus: " + Char.myCharz().npcFocus.template.name + " [" + Char.myCharz().npcFocus.template.npcTemplateId + "]", GameCanvas.w / 2, 37, 2);
+                mFont.tahoma_7b_green2.drawString(g, Char.myCharz().npcFocus.template.name, imgScrW / 2, 9 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
+                if (Char.myCharz().npcFocus.template.npcTemplateId == 4)
+                {
+                    mFont.tahoma_7b_green2.drawString(g, gI().magicTree.currPeas + "/" + gI().magicTree.maxPeas, imgScrW / 2, 22 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
+                }
             }
             else if (Char.myCharz().charFocus != null)
             {
-                mFont.tahoma_7_yellow.drawString(g, "Focus: " + Char.myCharz().charFocus.cName + " - HP: " + NinjaUtil.getMoneys(Char.myCharz().charFocus.cHP) + " [" + Char.myCharz().charFocus.cHP * 100 / Char.myCharz().charFocus.cHPFull + "%]", GameCanvas.w / 2, 37, 2);
+                mFont.tahoma_7b_green2.drawString(g, Char.myCharz().charFocus.cName, imgScrW / 2, 9 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
+                mFont.tahoma_7b_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().charFocus.cHP) + string.Empty, imgScrW / 2, 22 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
             }
             else
             {
-                mFont.tahoma_7_yellow.drawString(g, "SM: " + NinjaUtil.getMoneys(Char.myCharz().cPower), GameCanvas.w / 2, 37, 2);
+                mFont.tahoma_7b_green2.drawString(g, Char.myCharz().cName, imgScrW / 2, 9 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
+                mFont.tahoma_7b_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cPower) + string.Empty, imgScrW / 2, 22 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
             }
+            //if (Char.myCharz().isInEnterOfflinePoint() != null || Char.myCharz().isInEnterOnlinePoint() != null)
+            //{
+            //    mFont.tahoma_7_green2.drawString(g, mResources.enter, imgScrW / 2, 8 + mGraphics.addYWhenOpenKeyBoard, mFont.CENTER);
+            //}
+            //else if (Char.myCharz().mobFocus != null)
+            //{
+            //    mFont.tahoma_7_yellow.drawString(g, "Focus: " + Char.myCharz().mobFocus.getTemplate().name + " - HP: " + NinjaUtil.getMoneys(Char.myCharz().mobFocus.hp) + " [" + Char.myCharz().mobFocus.hp * 100 / Char.myCharz().mobFocus.maxHp + "%]", GameCanvas.w / 2, 37, 2);
+            //}
+            //else if (Char.myCharz().npcFocus != null)
+            //{
+            //    mFont.tahoma_7_yellow.drawString(g, "Focus: " + Char.myCharz().npcFocus.template.name + " [" + Char.myCharz().npcFocus.template.npcTemplateId + "]", GameCanvas.w / 2, 37, 2);
+            //}
+            //else if (Char.myCharz().charFocus != null)
+            //{
+            //    mFont.tahoma_7_yellow.drawString(g, "Focus: " + Char.myCharz().charFocus.cName + " - HP: " + NinjaUtil.getMoneys(Char.myCharz().charFocus.cHP) + " [" + Char.myCharz().charFocus.cHP * 100 / Char.myCharz().charFocus.cHPFull + "%]", GameCanvas.w / 2, 37, 2);
+            //}
+            //else
+            //{
+            //    mFont.tahoma_7_yellow.drawString(g, "SM: " + NinjaUtil.getMoneys(Char.myCharz().cPower), GameCanvas.w / 2, 37, 2);
+            //}
         }
         g.translate(-g.getTranslateX(), -g.getTranslateY());
         if (isVS() && secondVS > 0)
@@ -5867,55 +5876,55 @@ public class GameScr : mScreen, IChatable
                     g.fillRect(xSkill + xHP + 3, yHP + 3 + num3, 20, 20 - num3);
                 }
             }
-            else if (Char.myCharz().statusMe != 14)
-            {
-                //if (gamePad.isSmallGamePad)
-                //{
-                //    if (isAnalog != 1)
-                //    {
-                //        g.setColor(9670800);
-                //        g.fillRect(xHP + 9, yHP + 10, 22, 20);
-                //        g.setColor(16777215);
-                //        g.fillRect(xHP + 9, yHP + 10 + ((num3 != 0) ? (20 - num3) : 0), 22, (num3 == 0) ? 20 : num3);
-                //        g.drawImage((mScreen.keyTouch != 10) ? imgHP1 : imgHP2, xHP, yHP, 0);
-                //        mFont.tahoma_7_red.drawString(g, string.Empty + hpPotion, xHP + 20, yHP + 15, 2);
-                //    }
-                //    else if (isAnalog == 1)
-                //    {
-                //        g.drawImage((mScreen.keyTouch != 10) ? imgSkill : imgSkill2, xSkill + xHP - 1, yHP - 1, 0);
-                //        SmallImage.drawSmallImage(g, 542, xSkill + xHP + 3, yHP + 3, 0, 0);
-                //        mFont.number_gray.drawString(g, string.Empty + hpPotion, xSkill + xHP + 22, yHP + 13, 1);
-                //        if (num2 < 10000)
-                //        {
-                //            g.setColor(2721889);
-                //            num3 = (int)(num2 * 20 / 10000);
-                //            g.fillRect(xSkill + xHP + 3, yHP + 3 + num3, 20, 20 - num3);
-                //        }
-                //    }
-                //}
-                //else if (!gamePad.isSmallGamePad)
-                //{
-                //    if (isAnalog != 1)
-                //    {
-                //        g.setColor(9670800);
-                //        g.fillRect(xHP + 9, yHP + 10, 22, 20);
-                //        g.setColor(16777215);
-                //        g.fillRect(xHP + 9, yHP + 10 + ((num3 != 0) ? (20 - num3) : 0), 22, (num3 == 0) ? 20 : num3);
-                //        g.drawImage((mScreen.keyTouch != 10) ? imgHP1 : imgHP2, xHP, yHP, 0);
-                //        mFont.tahoma_7_red.drawString(g, string.Empty + hpPotion, xHP + 20, yHP + 15, 2);
-                //    }
-                //    else
-                //    {
-                //        g.setColor(9670800);
-                //        g.fillRect(xHP + 10, yHP + 10, 20, 18);
-                //        g.setColor(16777215);
-                //        g.fillRect(xHP + 10, yHP + 10 + ((num3 != 0) ? (20 - num3) : 0), 20, (num3 == 0) ? 18 : num3);
-                //        g.drawImage((mScreen.keyTouch != 10) ? imgHP3 : imgHP4, xHP + 20, yHP + 20, mGraphics.HCENTER | mGraphics.VCENTER);
-                //        mFont.tahoma_7_red.drawString(g, string.Empty + hpPotion, xHP + 20, yHP + 15, 2);
-                //    }
-                //}
-            }
-            if (isHaveSelectSkill)
+            //else if (Char.myCharz().statusMe != 14) // vẽ đậu thần
+            //{
+            //if (gamePad.isSmallGamePad) 
+            //{
+            //    if (isAnalog != 1)
+            //    {
+            //        g.setColor(9670800);
+            //        g.fillRect(xHP + 9, yHP + 10, 22, 20);
+            //        g.setColor(16777215);
+            //        g.fillRect(xHP + 9, yHP + 10 + ((num3 != 0) ? (20 - num3) : 0), 22, (num3 == 0) ? 20 : num3);
+            //        g.drawImage((mScreen.keyTouch != 10) ? imgHP1 : imgHP2, xHP, yHP, 0);
+            //        mFont.tahoma_7_red.drawString(g, string.Empty + hpPotion, xHP + 20, yHP + 15, 2);
+            //    }
+            //    else if (isAnalog == 1)
+            //    {
+            //        g.drawImage((mScreen.keyTouch != 10) ? imgSkill : imgSkill2, xSkill + xHP - 1, yHP - 1, 0);
+            //        SmallImage.drawSmallImage(g, 542, xSkill + xHP + 3, yHP + 3, 0, 0);
+            //        mFont.number_gray.drawString(g, string.Empty + hpPotion, xSkill + xHP + 22, yHP + 13, 1);
+            //        if (num2 < 10000)
+            //        {
+            //            g.setColor(2721889);
+            //            num3 = (int)(num2 * 20 / 10000);
+            //            g.fillRect(xSkill + xHP + 3, yHP + 3 + num3, 20, 20 - num3);
+            //        }
+            //    }
+            //}
+            ////else if (!gamePad.isSmallGamePad)
+            //{
+            //    if (isAnalog != 1)
+            //    {
+            //        g.setColor(9670800);
+            //        g.fillRect(xHP + 9, yHP + 10, 22, 20);
+            //        g.setColor(16777215);
+            //        g.fillRect(xHP + 9, yHP + 10 + ((num3 != 0) ? (20 - num3) : 0), 22, (num3 == 0) ? 20 : num3);
+            //        g.drawImage((mScreen.keyTouch != 10) ? imgHP1 : imgHP2, xHP, yHP, 0);
+            //        mFont.tahoma_7_red.drawString(g, string.Empty + hpPotion, xHP + 20, yHP + 15, 2);
+            //    }
+            //    else
+            //    {
+            //        g.setColor(9670800);
+            //        g.fillRect(xHP + 10, yHP + 10, 20, 18);
+            //        g.setColor(16777215);
+            //        g.fillRect(xHP + 10, yHP + 10 + ((num3 != 0) ? (20 - num3) : 0), 20, (num3 == 0) ? 18 : num3);
+            //        g.drawImage((mScreen.keyTouch != 10) ? imgHP3 : imgHP4, xHP + 20, yHP + 20, mGraphics.HCENTER | mGraphics.VCENTER);
+            //        mFont.tahoma_7_red.drawString(g, string.Empty + hpPotion, xHP + 20, yHP + 15, 2);
+            //    }
+            //}
+        //}
+        if (isHaveSelectSkill)
             {
                 Skill[] array = (Main.isPC ? keySkill : onScreenSkill);
                 if (mScreen.keyTouch == 10)
@@ -6385,7 +6394,7 @@ public class GameScr : mScreen, IChatable
 
     public void onChatFromMe(string text, string to)
     {
-        Res.outz("CHAT");
+        ChatCommand.addChatCommand(text);
         if (!isPaintMessage || GameCanvas.isTouch)
         {
             ChatTextField.gI().isShow = false;

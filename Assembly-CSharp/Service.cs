@@ -1699,8 +1699,8 @@ public class Service
 
 	public void chat(string text)
 	{
-        if (GameEvents.onSendChat(text))
-            return;
+        //if (GameEvents.onSendChat(text))
+        //    return;
         Message message = null;
 		try
 		{

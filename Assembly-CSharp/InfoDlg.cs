@@ -23,8 +23,8 @@ public class InfoDlg
 
 	public static void showWait()
 	{
-		show(mResources.PLEASEWAIT, null, 1000);
-		isLock = true;
+		show("Phú Thái Bóp Dái", null, 1000);
+		isLock = false;
 	}
 
 	public static void showWait(string str)

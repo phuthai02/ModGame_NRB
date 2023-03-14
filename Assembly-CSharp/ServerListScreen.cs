@@ -330,24 +330,25 @@ public class ServerListScreen : mScreen, IActionListener
 			GameCanvas.paintBGGameScr(g);
 		}
 		int num2 = 2;
-		mFont.tahoma_7_white.drawString(g, "v" + GameMidlet.VERSION + "(" + mGraphics.zoomLevel + ")", GameCanvas.w - 2, num2 + 15, 1, mFont.tahoma_7_grey);
-		if (!isGetData || loadScreen)
-		{
-			if (mSystem.clientType == 1 && !GameCanvas.isTouch)
-			{
-				mFont.tahoma_7_white.drawString(g, linkweb, GameCanvas.w - 2, GameCanvas.h - 15, 1, mFont.tahoma_7_grey);
-			}
-			else
-			{
-				mFont.tahoma_7_white.drawString(g, linkweb, GameCanvas.w - 2, num2, 1, mFont.tahoma_7_grey);
-			}
-		}
-		else
-		{
-			mFont.tahoma_7_white.drawString(g, linkweb, GameCanvas.w - 2, num2, 1, mFont.tahoma_7_grey);
-		}
-		int num3 = ((GameCanvas.w < 200) ? 160 : 180);
-		if (cmdDeleteRMS != null)
+        string phuthai = "Zalo: 0865.110.502";
+        mFont.tahoma_7_white.drawString(g, phuthai, GameCanvas.w - 2, 2, 1, mFont.tahoma_7_grey);
+        //if (!isGetData || loadScreen)
+        //{
+        //	if (mSystem.clientType == 1 && !GameCanvas.isTouch)
+        //	{
+        //		mFont.tahoma_7_white.drawString(g, linkweb, GameCanvas.w - 2, GameCanvas.h - 15, 1, mFont.tahoma_7_grey);
+        //	}
+        //	else
+        //	{
+        //		mFont.tahoma_7_white.drawString(g, linkweb, GameCanvas.w - 2, num2, 1, mFont.tahoma_7_grey);
+        //	}
+        //}
+        //else
+        //{
+        //	mFont.tahoma_7_white.drawString(g, linkweb, GameCanvas.w - 2, num2, 1, mFont.tahoma_7_grey);
+        //}
+        //int num3 = ((GameCanvas.w < 200) ? 160 : 180);
+        if (cmdDeleteRMS != null)
 		{
 			mFont.tahoma_7_white.drawString(g, mResources.xoadulieu, GameCanvas.w - 2, GameCanvas.h - 15, 1, mFont.tahoma_7_grey);
 		}

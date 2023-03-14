@@ -43,7 +43,7 @@ public class mSystem
 
 	public static void callHotlinePC()
 	{
-		Application.OpenURL("https://nroblue.com/");
+		Application.OpenURL("https://zalo.me/0865110502");
 	}
 
 	public static void callHotlineJava()
@@ -74,12 +74,12 @@ public class mSystem
 	{
 	}
 
-	public static void paintPopUp2(mGraphics g, int x, int y, int w, int h)
-	{
-		g.fillRect(x, y, w + 10, h - GameCanvas.w * 1 / 100, 2550193, 90);
-	}
+    public static void paintPopUp2(mGraphics g, int x, int y, int w, int h)
+    {
+        g.fillRect(x, y, w + 10, h, 0, 90);
+    }
 
-	public static void arraycopy(sbyte[] scr, int scrPos, sbyte[] dest, int destPos, int lenght)
+    public static void arraycopy(sbyte[] scr, int scrPos, sbyte[] dest, int destPos, int lenght)
 	{
 		Array.Copy(scr, scrPos, dest, destPos, lenght);
 	}

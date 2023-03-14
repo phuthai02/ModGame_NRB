@@ -86,7 +86,7 @@ public class mFont
 
 	public static mFont tahoma_7_red;
 
-	public static mFont tahoma_7_blue;
+    public static mFont tahoma_7_blue;
 
 	public static mFont tahoma_7_green;
 
@@ -132,7 +132,11 @@ public class mFont
 
 	public static mFont tahoma_7_whiteSmall;
 
-	public static mFont tahoma_7b_greenSmall;
+    public static mFont tahoma_7_redSmall;
+
+    public static mFont tahoma_7_darkSmall;
+
+    public static mFont tahoma_7b_greenSmall;
 
     public static mFont tahoma_7_white_pSmall;
 
@@ -280,6 +284,9 @@ public class mFont
 			tahoma_7b_greenSmall = tahoma_7b_green;
 			tahoma_7_blue1Small = tahoma_7_blue1;
             tahoma_7_white_pSmall = tahoma_7_white;
+			//custom text
+            tahoma_7_redSmall = tahoma_7_red;
+
             return;
 		}
 		gI = new mFont(0);
@@ -323,7 +330,11 @@ public class mFont
 		tahoma_7b_yellowSmall2 = tahoma_7_yellow;
 		tahoma_7b_green2Small = tahoma_7b_green2;
 		tahoma_7_whiteSmall = tahoma_7_white;
+
 		tahoma_7b_greenSmall = tahoma_7b_green;
+
+        //custom text
+        tahoma_7_redSmall = tahoma_7_red;
         tahoma_7_white_pSmall = new mFont(3, zoomLevel: 1);	
         yAddFont = 1;
 		if (mGraphics.zoomLevel == 1)

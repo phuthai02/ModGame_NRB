@@ -3885,7 +3885,7 @@ public class Panel : IActionListener, IChatable
                         }
                     }
                 }
-                mFont.tahoma_7_green2.drawString(g,item.template.name + text, num3 + 5, num4 + 1, 0);
+                mFont.tahoma_7_green2.drawString(g, item.template.name + text, num3 + 5, num4 + 1, 0);
                 string text2 = string.Empty;
                 if (item.itemOption != null)
                 {
@@ -4883,6 +4883,7 @@ public class Panel : IActionListener, IChatable
                     {
                         g.drawImage(GameScr.imgLbtn, xScroll + wScroll / 2, num2 + num4 / 2 + 1, StaticObj.VCENTER_HCENTER);
                         mFont.tahoma_7b_dark.drawString(g, mResources.UPGRADE, xScroll + wScroll / 2, num2 + num4 / 2 - 4, mFont.CENTER);
+
                     }
                 }
                 continue;
@@ -6418,6 +6419,9 @@ public class Panel : IActionListener, IChatable
 
     private void doSpeacialSkill()
     {
+        MyVector vector = new MyVector();
+        vector.addElement(new Command("Mở Max", AutoSpecial.gI(), 2, Char.myCharz().infoSpeacialSkill[currentTabIndex][selected]));
+        GameCanvas.menu.startAt(vector, 3);
     }
 
     private void doFireGameInfo()
@@ -6599,6 +6603,8 @@ public class Panel : IActionListener, IChatable
         }
     }
 
+    
+
     private void doFireCombine()
     {
         if (currentTabIndex == 0)
@@ -6613,6 +6619,7 @@ public class Panel : IActionListener, IChatable
                 selected = (GameCanvas.isTouch ? (-1) : 0);
                 InfoDlg.showWait();
                 Service.gI().combine(1, vItemCombine);
+                AutoUpgrade.paintMenuCustom();
                 return;
             }
             if (selected > vItemCombine.size() - 1)
@@ -7275,7 +7282,6 @@ public class Panel : IActionListener, IChatable
             currInfoItem = selected;
             myVector.addElement(new Command(mResources.REVENGE, this, 10000, (InfoItem)vEnemy.elementAt(currInfoItem)));
             myVector.addElement(new Command(mResources.DELETE, this, 10001, (InfoItem)vEnemy.elementAt(currInfoItem)));
-            myVector.addElement(new Command(mResources.den, this, 8004, (InfoItem)vEnemy.elementAt(currInfoItem)));
             GameCanvas.menu.startAt(myVector, X, (selected + 1) * ITEM_HEIGHT - cmy + yScroll);
             addFriend((InfoItem)vEnemy.elementAt(selected));
         }
@@ -8078,22 +8084,11 @@ public class Panel : IActionListener, IChatable
         if (idAction == 8004)
         {
             InfoItem infoItem3 = (InfoItem)p;
-            //if (PhuThai.LấyIndexYardrat() == -1)
-            //{
-            //GameScr.info1.addInfo((PhuThai.LấyIndexYardrat() == -1).ToString(), 0);
-            //return;
-            //}
-            PhuThai.teleToCharVip(infoItem3.charInfo.charID);
+            Utilities.teleToCharVip(infoItem3.charInfo.charID);
         }
         if (idAction == 8005)
         {
-            //if (PhuThai.LấyIndexYardrat() == -1)
-            //{
-            //    GameScr.info1.addInfo("Không có cải trang Yardrat", 0);
-            //    return;
-
-            //}
-            PhuThai.teleToCharVip((int)p);
+            Utilities.teleToCharVip((int)p);
         }
         if (idAction == 8001)
         {
@@ -8301,7 +8296,7 @@ public class Panel : IActionListener, IChatable
                 chatTField.initChatTextField();
                 chatTField.parentScreen = GameCanvas.panel;
             }
-            chatTField.strChat = mResources.buy_tv;
+            chatTField.strChat = ResourcesCustom.RC_BUY_GOLD_BAR;
             chatTField.tfChat.name = "Chỉ được nhập số lớn hơn 0 và nhỏ hơn 5";
             chatTField.to = string.Empty;
             chatTField.tfChat.setIputType(TField.INPUT_TYPE_NUMERIC);
@@ -8669,7 +8664,7 @@ public class Panel : IActionListener, IChatable
                 Service.gI().chatPlayer(text, infoItem.charInfo.charID);
             }
         }
-        else if (chatTField.strChat.Equals(mResources.buy_tv))
+        else if (chatTField.strChat.Equals(ResourcesCustom.RC_BUY_GOLD_BAR))
         {
             GameScr.info1.addInfo("Run !", 0);
             //int num = 0;

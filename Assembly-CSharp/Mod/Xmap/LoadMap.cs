@@ -9,24 +9,7 @@ public class LoadMap
     public static Waypoint waypointMiddle;
     public static Waypoint waypointRight;
 
-    public static void teleportMyChar(int x, int y)
-    {
-        Char.myCharz().currentMovePoint = null;
-        Char.myCharz().cx = x;
-        Char.myCharz().cy = y;
-        Service.gI().charMove();
 
-        if (!ItemTime.isExistItem(521))
-            return;
-
-        Char.myCharz().cx = x;
-        Char.myCharz().cy = y + 1;
-        Service.gI().charMove();
-        Char.myCharz().cx = x;
-        Char.myCharz().cy = y;
-        Service.gI().charMove();
-        GameScr.info1.addInfo("teleportMyChar", 0);
-    }
 
     public static void NextMap(int type)
     {
@@ -139,7 +122,7 @@ public class LoadMap
     {
         if (waypoint != null)
         {
-            teleportMyChar(getXWayPoint(waypoint), getYWayPoint(waypoint));
+            Utilities.teleportMyChar(getXWayPoint(waypoint), getYWayPoint(waypoint));
             if (isWaypointMiddle)
             {
                 requestChangeMap(waypoint);

@@ -451,7 +451,7 @@ public class GameCanvas : IActionListener
 		Command.btn1mid = loadImage("/mainImage/btn1mid.png");
 		Command.btn1right = loadImage("/mainImage/btn1right.png");
 		serverScreen = new ServerListScreen();
-		img12 = loadImage("/mainImage/12+.png");
+		img12 = null;
 		for (int j = 0; j < 7; j++)
 		{
 			imgBlue[j] = loadImage("/effectdata/blue/" + j + ".png");

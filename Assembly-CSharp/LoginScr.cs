@@ -707,20 +707,21 @@ public class LoginScr : mScreen, IActionListener
 		{
 			num += 5;
 		}
-		mFont.tahoma_7_white.drawString(g, "v" + GameMidlet.VERSION, GameCanvas.w - 2, 17, 1, mFont.tahoma_7_grey);
-		if (mSystem.clientType == 1 && !GameCanvas.isTouch)
-		{
-			mFont.tahoma_7_white.drawString(g, ServerListScreen.linkweb, GameCanvas.w - 2, GameCanvas.h - 15, 1, mFont.tahoma_7_grey);
-		}
-		else
-		{
-			mFont.tahoma_7_white.drawString(g, ServerListScreen.linkweb, GameCanvas.w - 2, 2, 1, mFont.tahoma_7_grey);
-		}
-		if (ChatPopup.currChatPopup != null || ChatPopup.serverChatPopUp != null)
-		{
-			return;
-		}
-		if (GameCanvas.currentDialog == null)
+		string phuthai = "Zalo: 0865.110.502";
+        mFont.tahoma_7_white.drawString(g, phuthai, GameCanvas.w - 2, 2, 1, mFont.tahoma_7_grey);
+        //if (mSystem.clientType == 1 && !GameCanvas.isTouch)
+        //{
+        //	mFont.tahoma_7_white.drawString(g, ServerListScreen.linkweb, GameCanvas.w - 2, GameCanvas.h - 15, 1, mFont.tahoma_7_grey);
+        //}
+        //else
+        //{
+        //	mFont.tahoma_7_white.drawString(g, ServerListScreen.linkweb, GameCanvas.w - 2, 2, 1, mFont.tahoma_7_grey);
+        //}
+        //if (ChatPopup.currChatPopup != null || ChatPopup.serverChatPopUp != null)
+        //{
+        //	return;
+        //}
+        if (GameCanvas.currentDialog == null)
 		{
 			int h = 105;
 			int w = ((GameCanvas.w < 200) ? 160 : 180);

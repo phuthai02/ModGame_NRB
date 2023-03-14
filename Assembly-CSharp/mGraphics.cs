@@ -185,7 +185,13 @@ public class mGraphics
 		fillRect(x, y, w, h);
 	}
 
-	public void drawLine(int x1, int y1, int x2, int y2)
+    public void fillRectPT(int x, int y, int w, int h, int color, float alpha)
+    {
+        setColor(color, alpha);
+        fillRect(x, y, w, h);
+    }
+
+    public void drawLine(int x1, int y1, int x2, int y2)
 	{
 		x1 *= zoomLevel;
 		y1 *= zoomLevel;
@@ -296,7 +302,10 @@ public class mGraphics
 		fillRect(x, y + h, w + 1, num);
 	}
 
-	public void fillRect(int x, int y, int w, int h)
+    
+
+
+    public void fillRect(int x, int y, int w, int h)
 	{
 		x *= zoomLevel;
 		y *= zoomLevel;

@@ -158,8 +158,8 @@ public class ChatTextField : IActionListener
 
 	public void startChat(int firstCharacter, IChatable parentScreen, string to)
 	{
-        if (GameEvents.onStartChatTextField(this))
-            return;
+        //if (GameEvents.onStartChatTextField(this))
+        //    return;
         right.caption = mResources.CLOSE;
 		this.to = to;
 		if (Main.isWindowsPhone)
@@ -180,8 +180,8 @@ public class ChatTextField : IActionListener
 
 	public void startChat(IChatable parentScreen, string to)
 	{
-        if (GameEvents.onStartChatTextField(this))
-            return;
+        //if (GameEvents.onStartChatTextField(this))
+        //    return;
         right.caption = mResources.CLOSE;
 		this.to = to;
 		if (Main.isWindowsPhone)
@@ -300,7 +300,7 @@ public class ChatTextField : IActionListener
 				GameCanvas.paintz.paintCmdBar(g, left, center, right);
 			}
 			tfChat.paint(g);
-            GameEvents.onPaintChatTextField(this, g);
+            //GameEvents.onPaintChatTextField(this, g);
         }
 	}
 

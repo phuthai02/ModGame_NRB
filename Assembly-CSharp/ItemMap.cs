@@ -50,7 +50,7 @@ public class ItemMap : IMapObject
 
 	public int countAura;
 
-	public static Image imageFlare = GameCanvas.loadImage("/mainImage/myTexture2dflare.png");
+	public static Image imageFlare = null;
 
 	public static Image imageAuraItem1 = GameCanvas.loadImage("/mainImage/myTexture2ditemaura1.png");
 

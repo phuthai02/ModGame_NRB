@@ -53,9 +53,9 @@ public class Main : MonoBehaviour
 
 	private int count;
 
-	private int fps;
+    private int fps;
 
-	private int max;
+    private int max;
 
 	private int up;
 
@@ -98,7 +98,7 @@ public class Main : MonoBehaviour
 		isPC = true;
 		started = true;
 
-		Screen.SetResolution(int.Parse(File.ReadAllText("Mod/Data/size.txt").Split('_')[0]), int.Parse(File.ReadAllText("Mod/Data/size.txt").Split('_')[1]), fullscreen: false);
+		Screen.SetResolution(int.Parse(File.ReadAllText("Mod/Data/size.txt").Split('x')[0]), int.Parse(File.ReadAllText("Mod/Data/size.txt").Split('x')[1]), fullscreen: false);
 
 	}
 
@@ -121,30 +121,32 @@ public class Main : MonoBehaviour
 
 	private void OnGUI()
 	{
-		if (count >= 10)
-		{
-			if (fps == 0)
-			{
-				timefps = mSystem.currentTimeMillis();
-			}
-			else if (mSystem.currentTimeMillis() - timefps > 1000)
-			{
-				max = fps;
-				fps = 0;
-				timefps = mSystem.currentTimeMillis();
-			}
-			fps++;
-			checkInput();
-			Session_ME.update();
-			Session_ME2.update();
+        if (count >= 10)
+        {
+            if (fps == 0)
+                timefps = mSystem.currentTimeMillis();
+            else if (mSystem.currentTimeMillis() - timefps > 1000)
+            {
+                max = fps;
+                fps = 0;
+                timefps = mSystem.currentTimeMillis();
+            }
+            fps++;
+            checkInput();
+            Session_ME.update();
+            Session_ME2.update();
+            
 			if (Event.current.type.Equals(EventType.Repaint) && paintCount <= updateCount)
-			{
-				GameMidlet.gameCanvas.paint(g);
-				paintCount++;
-				g.reset();
-			}
-		}
-	}
+            {
+                GameMidlet.gameCanvas.paint(g);
+                string fps = $"FPS: {System.Math.Round(1f / Time.smoothDeltaTime * Time.timeScale, 1):0.0}";
+                mFont.tahoma_7b_red.drawString(g, fps, GameCanvas.w - mFont.tahoma_7b_red.getWidth(fps), GameCanvas.h - 10, 0);
+                mFont.tahoma_7b_red.drawString(g, $" zoomLevel: {mGraphics.zoomLevel}", 0, GameCanvas.h - 10, 0);
+                paintCount++;
+                g.reset();
+            }
+        }
+    }
 
 	public void setsizeChange()
 	{

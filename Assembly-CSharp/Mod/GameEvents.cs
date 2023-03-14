@@ -1,57 +1,47 @@
 ﻿using Mod;
-using Mod.Boss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using UnityEngine;
 
-
-public class GameEvents
+public class GameEvents // Sự kiện thêm vào
 {
     public static void onChatVip(string chatVip)
     {
-        Boss.AddBoss(chatVip);
-        BossDead.AddBossDead(chatVip);
+        BossAppeared.AddBoss(chatVip);
     }
     public static void onUpdateTouchGameScr()
     {
         PlayerInMap.UpdateTouch();
-        Boss.UpdateTouch();
-        BossDead.UpdateTouch();
+        BossAppeared.UpdateTouch();
         BossInMap.UpdateTouch();
+        NpcInMap.UpdateTouch();
     }
     public static void onUpdateGameScr()
     {
-        Boss.Update();
-        BossDead.Update();
+        BossAppeared.Update();
         if (ChatTextField.gI().strChat.Replace(" ", "") != "Chat" || ChatTextField.gI().tfChat.name != "chat") return;
-        HistoryChat.gI.update();
     }
     public static void onPaintGameScr(mGraphics g)
     {
-        Boss.Paint(g);
-        BossDead.Paint(g);
+        BossAppeared.Paint(g);
         PlayerInMap.Paint(g);
+        NpcInMap.Paint(g);
         BossInMap.Paint(g);
+        TopMiddleInfo.Paint(g);
+        leftTopInfoOnPaintGameScr(g);
     }
-    public static bool onSendChat(string text)
+
+
+    public static void leftTopInfoOnPaintGameScr(mGraphics g)
     {
-        HistoryChat.gI.append(text);
-        bool result = true;
-        return result;
+        mFont.tahoma_7b_yellow.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cHP), GameCanvas.w / 2 - 63 * mGraphics.zoomLevel, 4, mFont.CENTER, mFont.tahoma_7b_dark);
+        mFont.tahoma_7b_yellow.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cMP), GameCanvas.w / 2 - 63 * mGraphics.zoomLevel, 18, mFont.CENTER, mFont.tahoma_7b_dark);
     }
-    public static void onPaintChatTextField(ChatTextField instance, mGraphics g)
-    {
-        if (instance == ChatTextField.gI() && instance.strChat.Replace(" ", "") == "Chat" && instance.tfChat.name == "chat")
-            HistoryChat.gI.paint(g);
-    }
-    public static bool onStartChatTextField(ChatTextField sender)
-    {
-        if (ChatTextField.gI().strChat.Replace(" ", "") != "Chat" || ChatTextField.gI().tfChat.name != "chat") return false;
-        if (sender == ChatTextField.gI())
-        {
-            HistoryChat.gI.show();
-        }
-        return false;
-    }
+
+
+
+
 }

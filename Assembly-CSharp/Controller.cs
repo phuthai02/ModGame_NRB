@@ -874,6 +874,7 @@ public class Controller : IMessageHandler
                         {
                             string src = msg.reader().readUTF();
                             string src2 = msg.reader().readUTF();
+                            AutoUpgrade.topInfo = src2;
                             GameCanvas.panel.setTypeCombine();
                             GameCanvas.panel.combineInfo = mFont.tahoma_7b_blue.splitFontArray(src, Panel.WIDTH_PANEL);
                             GameCanvas.panel.combineTopInfo = mFont.tahoma_7.splitFontArray(src2, Panel.WIDTH_PANEL);
